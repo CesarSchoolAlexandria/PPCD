@@ -1,0 +1,8 @@
+Neste projeto, a classe Main utiliza de Busy-Wait para detectar a conclus�o. Quais as implica��es dessa implementa��o e quais as alternativas?
+
+R:
+A implementação de busy waiting para verificar uma condição, faz com que o processo fique ocupado verificando a liberação da condição supracitada. Isso também pode ser chamado de lock variable, que é quando uma variável bloqueia a entrada para uma região crítica.
+
+O principal problema com busy waiting é quando estamos em um cenário multithread onde muitas threads estão esperando o lock ser liberado. Agora, as threads estão competindo entre si para quem vai pegar a lock primeiro quando ela for liberada, o que não possibilita uma priorização de processos. Um problema ainda maior no cenário multithread é quando duas threads entram na região crítica ao mesmo tempo, pois enquanto uma thread estava mudando o valor da lock de 0 para 1 a outra também entrou na região crítica, e isso pode causar uma série de problemas.
+
+Um Mutex é uma alternativa que lida bem com o problema multithread. Em Java é possível implementar um mutex manualmente utilizando a classe Object em conjunto com synchronized. Se o mutex for utilizado com as intruções wait e notify/notifyAll ele garante que as threads não fiquem ocupadas verificando uma condição como no busy waiting. Outra alternativa é utilizar o comando join, que diferente do wait que libera assim que recebe o notify, só libera quando a thread que estava ativa é encerrada. E uma terceira opção é utilizar uma classe "Lock" do Java, como por exemplo a ReentrantLock, que pode ser utilizado com uma condição usando os comandos await e signal.
